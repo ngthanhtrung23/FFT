@@ -1,0 +1,354 @@
+﻿
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Copyright Notice</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-25"><meta name="DC.source" content="fft_ifft_test_published.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Copyright Notice</h1><!--introduction--><p>Copyright (c) 2015, Mehmet E. Yavuz All rights reserved.</p><p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p><pre>   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the distribution</pre><p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Sample parameters</a></li><li><a href="#4">Take FFT and plot single-sided amplitude spectrum.</a></li><li><a href="#5">Dumping snapshots to jpg files</a></li></ul></div><h2>Sample parameters<a name="1"></a></h2><pre class="codeinput">clear <span class="string">all</span>; clc;
+freq1 = 50; <span class="comment">% Frequency in Hertz</span>
+freq2 = 100;
+T1 = 1/freq1; <span class="comment">% periods</span>
+T2 = 1/freq2;
+Nt = 50;      <span class="comment">% Numberof samples in time per period</span>
+dt = min(T1,T2)/Nt; <span class="comment">% time step</span>
+
+t=0:dt:(10*max(T1,T2));
+
+Nrepetition=1;
+NFFT=Nrepetition*length(t);
+
+
+Fs = NFFT;     <span class="comment">% Sampling frequency</span>
+T  = 1/(Fs);   <span class="comment">% Sample time</span>
+
+isVideoOn = 0;   <span class="comment">% To turn on/off for jpeg dumpong which is later for generating the video</span>
+
+iBufferTime=100; <span class="comment">% Buffer time steps to stop during progression (for animation purposes)</span>
+
+func=zeros(1,length(t));
+func2=zeros(1,length(t));
+<span class="keyword">for</span> Iteration=1:5
+    <span class="keyword">for</span> it=1:(length(t)+iBufferTime)
+</pre><pre class="codeinput">       
+
+        <span class="keyword">if</span> (it &lt;=length(t))
+            func(it)=sin(2*pi*freq1*t(it));
+
+            <span class="keyword">if</span> (Iteration == 2)
+                func2(it)= 1.5*sin(2*pi*freq2*t(it));
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> (Iteration == 3)
+                func2(it)= 1.5*sin(2*pi*2*freq2*t(it));
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> (Iteration == 4)
+                L2=floor(length(t)/2);
+                <span class="keyword">if</span> (it &lt;=L2)
+                    func2(it)= 1;
+                <span class="keyword">else</span>
+                    func2(it)= 0;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> (Iteration == 5)
+                L2=floor(length(t)/2);
+                <span class="keyword">if</span> (it &lt;L2 || it &gt;= L2)
+                    func2(it)= 0;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+           <span class="comment">% Keep Same (do nothing) - freezing in time</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeinput">        Lw=2; Fs=10;
+        f6=figure (6); clf; set(gcf,<span class="string">'Color'</span>,[1 1 1]);
+        sp1=subplot(10,1,1:3); set(gca,<span class="string">'FontSize'</span>,Fs);
+        plot(t,func,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,Lw,<span class="string">'LineSmoothing'</span>,<span class="string">'on'</span>); grid <span class="string">on</span>; hold <span class="string">on</span>;
+        text(-0.018,0.5,1,<span class="string">'f_1(t) \rightarrow'</span>,<span class="string">'FontSize'</span>,Fs+2,<span class="string">'Color'</span>,<span class="string">'b'</span>)
+
+        plot(t,func2,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,Lw,<span class="string">'LineSmoothing'</span>,<span class="string">'on'</span>); grid <span class="string">on</span>;
+        ylim([-2 2])
+        set(gca,<span class="string">'xticklabel'</span>,[]);
+        set(gca,<span class="string">'OuterPosition'</span>,[ -0.04    0.75    1.13    0.25])
+        text(-0.018,-0.5,1,<span class="string">'f_2(t) \rightarrow'</span>,<span class="string">'FontSize'</span>,Fs+2,<span class="string">'Color'</span>,<span class="string">'r'</span>)
+        set(sp1,<span class="string">'Color'</span>,[0.9608    0.9765    0.9922]);
+
+        funcSum=func+func2;
+        sp3=subplot(10,1,4:6); set(gca,<span class="string">'FontSize'</span>,Fs);
+        plot(t,funcSum,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,Lw,<span class="string">'LineSmoothing'</span>,<span class="string">'on'</span>); grid <span class="string">on</span>;
+        xlabel(<span class="string">'time (sec)'</span>);
+        ylim([-2.5 2.5])
+        set(gca,<span class="string">'OuterPosition'</span>,[ -0.04    0.45    1.13    0.3])
+        text(-0.024,0,1,<span class="string">'f_1(t)+f_2(t) \rightarrow'</span>,<span class="string">'FontSize'</span>,Fs+2)
+        set(sp3,<span class="string">'Color'</span>,[0.8941    0.9412    0.9020]);
+
+        funcSum_rep=[];
+        func_rep=[];
+        <span class="keyword">for</span> ik=1:Nrepetition
+            funcSum_rep=[funcSum_rep funcSum];
+            func_rep=[func_rep func];
+        <span class="keyword">end</span>
+        FD_funcSum = fft(funcSum_rep,NFFT)/NFFT;
+        FD_func = fft(func_rep,NFFT)/NFFT;
+        f=(0:(NFFT-1))/(NFFT*dt);
+</pre><img vspace="5" hspace="5" src="fft_ifft_test_published_01.png" alt=""> <h2>Take FFT and plot single-sided amplitude spectrum.<a name="4"></a></h2><pre class="codeinput">        sp4=subplot(10,1,7:10); set(gca,<span class="string">'FontSize'</span>,Fs);
+        stem(f(1:(floor(NFFT/2)+1)),2*abs(FD_func(1:(floor(NFFT/2)+1))),<span class="string">'--bx'</span>,<span class="string">'LineWidth'</span>,Lw); hold <span class="string">on</span>; grid <span class="string">on</span>;
+        stem(f(1:(floor(NFFT/2)+1)),2*abs(FD_funcSum(1:(floor(NFFT/2)+1))),<span class="string">'-ko'</span>,<span class="string">'LineWidth'</span>,Lw);
+        plot(f(1:(floor(NFFT/2)+1)),2*abs(FD_func(1:(floor(NFFT/2)+1))),<span class="string">':b'</span>,<span class="string">'LineWidth'</span>,Lw-1,<span class="string">'LineSmoothing'</span>,<span class="string">'on'</span>); hold <span class="string">on</span>; grid <span class="string">on</span>;
+        plot(f(1:(floor(NFFT/2)+1)),2*abs(FD_funcSum(1:(floor(NFFT/2)+1))),<span class="string">':k'</span>,<span class="string">'LineWidth'</span>,Lw-1,<span class="string">'LineSmoothing'</span>,<span class="string">'on'</span>);
+
+        xlabel(<span class="string">'Frequency (Hz)'</span>)
+        xlim([-1 256])
+        set(gca,<span class="string">'OuterPosition'</span>,[ -0.04    0.01    1.13    0.42])
+        Ylim4=get(sp4,<span class="string">'Ylim'</span>);
+        t1=text(-31,1.25,10,<span class="string">'{\bf |FFT\{f_1(t)+f_2(t)\}| }'</span>,<span class="string">'FontSize'</span>,Fs+2);
+        set(t1,<span class="string">'BackgroundColor'</span>,[0.8 0.866667 0.776471]);
+        legend(<span class="string">'|FFT\{f_1(t)\}|'</span>,<span class="string">'|FFT\{f_1(t)+f_2(t)\}|'</span>);
+        set(sp4,<span class="string">'Color'</span>,[0.905882 0.905882 0.905882]);
+        ylim([0 1.5])
+</pre><img vspace="5" hspace="5" src="fft_ifft_test_published_02.png" alt=""> <h2>Dumping snapshots to jpg files<a name="5"></a></h2><pre class="codeinput">        set(gcf, <span class="string">'InvertHardCopy'</span>, <span class="string">'off'</span>);
+        <span class="keyword">if</span> (isVideoOn == 1)
+            set(gcf,<span class="string">'PaperPositionMode'</span>,<span class="string">'auto'</span>);
+            <span class="comment">%             set(gcf,'PaperUnits','inches','PaperPosition',[0 0 48 27])</span>
+            Name=<span class="string">'JPEG/FFTAnimationStem_'</span>;
+            itx=it + (Iteration-1)*(length(t)+iBufferTime);
+            disp([<span class="string">'itx= '</span> num2str(itx)]);
+            <span class="keyword">if</span> (itx &lt;10)
+                print (f6, <span class="string">'-djpeg100'</span>, [Name <span class="string">'000'</span> num2str(itx) <span class="string">'.jpg'</span>],<span class="string">'-r96'</span>)
+            <span class="keyword">elseif</span> (itx&gt;=10 &amp;&amp; itx &lt;100)
+                print (f6, <span class="string">'-djpeg100'</span>, [Name <span class="string">'00'</span> num2str(itx) <span class="string">'.jpg'</span>],<span class="string">'-r96'</span>)
+            <span class="keyword">elseif</span> (itx&gt;=100 &amp;&amp; itx &lt;1000)
+                print (f6, <span class="string">'-djpeg100'</span>, [Name <span class="string">'0'</span> num2str(itx) <span class="string">'.jpg'</span>],<span class="string">'-r96'</span>)
+            <span class="keyword">else</span>
+                print (f6, <span class="string">'-djpeg100'</span>, [Name <span class="string">''</span> num2str(itx) <span class="string">'.jpg'</span>],<span class="string">'-r96'</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        pause(0.01);
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Copyright Notice
+% Copyright (c) 2015, Mehmet E. Yavuz
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     * Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%     * Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the distribution
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+
+
+%%  Sample parameters 
+clear all; clc;
+freq1 = 50; % Frequency in Hertz
+freq2 = 100;
+T1 = 1/freq1; % periods
+T2 = 1/freq2;
+Nt = 50;      % Numberof samples in time per period
+dt = min(T1,T2)/Nt; % time step
+
+t=0:dt:(10*max(T1,T2));
+
+Nrepetition=1;
+NFFT=Nrepetition*length(t);
+
+
+Fs = NFFT;     % Sampling frequency
+T  = 1/(Fs);   % Sample time
+
+isVideoOn = 0;   % To turn on/off for jpeg dumpong which is later for generating the video
+
+iBufferTime=100; % Buffer time steps to stop during progression (for animation purposes)
+
+func=zeros(1,length(t));
+func2=zeros(1,length(t));
+% for Iteration=1:5
+for Iteration=2:2
+%     for it=1:(length(t)+iBufferTime)
+    for it=1001:1001
+        func(1:it) = sin(2*pi*freq1*t(1:it));
+        func2(1:it)= 1.5*sin(2*pi*2*freq2*t(1:it));
+        
+        if (it <=length(t))
+            func(it)=sin(2*pi*freq1*t(it));
+            
+            if (Iteration == 2)
+                func2(it)= 1.5*sin(2*pi*freq2*t(it));
+            end
+            if (Iteration == 3)
+                func2(it)= 1.5*sin(2*pi*2*freq2*t(it));
+            end
+            if (Iteration == 4)
+                L2=floor(length(t)/2);
+                if (it <=L2)
+                    func2(it)= 1;
+                else
+                    func2(it)= 0;
+                end
+            end
+            if (Iteration == 5)
+                L2=floor(length(t)/2);
+                if (it <L2 || it >= L2)
+                    func2(it)= 0;
+                end
+            end
+        else
+           % Keep Same (do nothing) - freezing in time
+        end
+        
+        %%
+        Lw=2; Fs=10;
+        f6=figure (6); clf; set(gcf,'Color',[1 1 1]);
+        sp1=subplot(10,1,1:3); set(gca,'FontSize',Fs);
+        plot(t,func,'b','LineWidth',Lw,'LineSmoothing','on'); grid on; hold on;
+        text(-0.018,0.5,1,'f_1(t) \rightarrow','FontSize',Fs+2,'Color','b')
+        
+        plot(t,func2,'r','LineWidth',Lw,'LineSmoothing','on'); grid on;
+        ylim([-2 2])
+        set(gca,'xticklabel',[]);
+        set(gca,'OuterPosition',[ -0.04    0.75    1.13    0.25])
+        text(-0.018,-0.5,1,'f_2(t) \rightarrow','FontSize',Fs+2,'Color','r')
+        set(sp1,'Color',[0.9608    0.9765    0.9922]);
+        
+        funcSum=func+func2;
+        sp3=subplot(10,1,4:6); set(gca,'FontSize',Fs);
+        plot(t,funcSum,'k','LineWidth',Lw,'LineSmoothing','on'); grid on;
+        xlabel('time (sec)');
+        ylim([-2.5 2.5])
+        set(gca,'OuterPosition',[ -0.04    0.45    1.13    0.3])
+        text(-0.024,0,1,'f_1(t)+f_2(t) \rightarrow','FontSize',Fs+2)
+        set(sp3,'Color',[0.8941    0.9412    0.9020]);
+        
+        funcSum_rep=[];
+        func_rep=[];
+        for ik=1:Nrepetition
+            funcSum_rep=[funcSum_rep funcSum];
+            func_rep=[func_rep func];
+        end
+        FD_funcSum = fft(funcSum_rep,NFFT)/NFFT;
+        FD_func = fft(func_rep,NFFT)/NFFT;
+        f=(0:(NFFT-1))/(NFFT*dt);
+        
+        %% Take FFT and plot single-sided amplitude spectrum.
+        sp4=subplot(10,1,7:10); set(gca,'FontSize',Fs);
+        stem(f(1:(floor(NFFT/2)+1)),2*abs(FD_func(1:(floor(NFFT/2)+1))),'REPLACE_WITH_DASH_DASHbx','LineWidth',Lw); hold on; grid on;
+        stem(f(1:(floor(NFFT/2)+1)),2*abs(FD_funcSum(1:(floor(NFFT/2)+1))),'-ko','LineWidth',Lw);
+        plot(f(1:(floor(NFFT/2)+1)),2*abs(FD_func(1:(floor(NFFT/2)+1))),':b','LineWidth',Lw-1,'LineSmoothing','on'); hold on; grid on;
+        plot(f(1:(floor(NFFT/2)+1)),2*abs(FD_funcSum(1:(floor(NFFT/2)+1))),':k','LineWidth',Lw-1,'LineSmoothing','on');
+        
+        xlabel('Frequency (Hz)')
+        xlim([-1 256])
+        set(gca,'OuterPosition',[ -0.04    0.01    1.13    0.42])
+        Ylim4=get(sp4,'Ylim');
+        t1=text(-31,1.25,10,'{\bf |FFT\{f_1(t)+f_2(t)\}| }','FontSize',Fs+2);
+        set(t1,'BackgroundColor',[0.8 0.866667 0.776471]);
+        legend('|FFT\{f_1(t)\}|','|FFT\{f_1(t)+f_2(t)\}|');
+        set(sp4,'Color',[0.905882 0.905882 0.905882]);
+        ylim([0 1.5])
+        
+        %% Dumping snapshots to jpg files
+        set(gcf, 'InvertHardCopy', 'off');
+        if (isVideoOn == 1)
+            set(gcf,'PaperPositionMode','auto');
+            %             set(gcf,'PaperUnits','inches','PaperPosition',[0 0 48 27])
+            Name='JPEG/FFTAnimationStem_';
+            itx=it + (Iteration-1)*(length(t)+iBufferTime);
+            disp(['itx= ' num2str(itx)]);
+            if (itx <10)
+                print (f6, '-djpeg100', [Name '000' num2str(itx) '.jpg'],'-r96')
+            elseif (itx>=10 && itx <100)
+                print (f6, '-djpeg100', [Name '00' num2str(itx) '.jpg'],'-r96')
+            elseif (itx>=100 && itx <1000)
+                print (f6, '-djpeg100', [Name '0' num2str(itx) '.jpg'],'-r96')
+            else
+                print (f6, '-djpeg100', [Name '' num2str(itx) '.jpg'],'-r96')
+            end
+        end
+        
+        pause(0.01);
+        
+    end
+end
+
+##### SOURCE END #####
+--></body></html>
